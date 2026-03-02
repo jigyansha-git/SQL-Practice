@@ -86,3 +86,87 @@ from student s
 inner join courses c 
 on s.roll_no = c.roll_no
 where s.marks > 85 ; 
+
+
+
+-- LEFT JOIN(Give all data of left table)
+ -- give student name having course or not
+ -- left table written before left join
+ select s.name,c.course_name 
+ from student s 
+ left join courses c
+ on s.roll_no = c.roll_no;
+ 
+ -- find students without courses
+ select s.name,c.course_name
+ from student s 
+ left join courses c 
+ on s.roll_no = c.roll_no
+ where c.roll_no is null;
+ 
+-- RIGHT JOIN  
+ -- All rows from the right table
+ -- right table is written after right join
+ 
+ -- show all courses with student names if available
+ select c.course_name,s.name
+ from student s 
+ right join courses c
+ on s.roll_no = c.roll_no; 
+ 
+ -- FULL OUTER JOIN(LEFT JOIN + RIGHT JOIN)
+ -- All rows from left table and all rows from right table
+ -- if no match null on that side
+ -- show all student and courses even unmatched
+ select s.name , c.course_name 
+ from student s  
+ left join courses c 
+ on s.rolll_no = c.roll_no
+ union
+ select s.name , c.course_name
+ from student s 
+ right join courses c 
+ on s.roll_no = c.roll_no;
+ 
+ -- mixed join practice questions
+ -- basic mix(INNER + WHERE)
+ -- show student with courses only from cs department
+ select s.name ,s.department, c.course_name
+ from student s 
+ inner join courses c 
+ on s.roll_no = c.roll_no
+ where s.department = 'CS';
+ 
+ -- JOIN + ORDERBY
+ -- show student and courses sorted by marks(high to low)
+ select s.name,s.marks,c.course_name
+ from student s 
+ inner join courses c 
+ on s.roll_no = c.roll_no
+ order by s.marks desc;
+ 
+ -- JOIN + GROUP BY + HAVING
+ -- count number of student per courses
+ select c.course_name, count(s.roll_no) as total_student
+ from student s 
+ inner join courses c 
+ on s.roll_no = c.roll_no
+ group by c.course_name;
+ 
+ -- find the average marks per courses
+ select c.course_name,avg(s.marks) as avg_marks
+ from student s 
+ inner join courses c 
+ on s.roll_no = c.roll_no
+ group by course_name;
+ 
+ -- show courses where average marks > 80
+ select c.course_name, avg(s.marks) as avg_marks
+ from student s 
+ inner join courses c 
+ on s.roll_no = c.roll_no
+ group by c.course_name
+ having avg_marks > 80;
+ 
+ 
+
